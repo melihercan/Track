@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneClient.iOS", "PhoneCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneClient", "PhoneClient\PhoneClient\PhoneClient.csproj", "{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{CCAC97BE-2813-43BD-98BE-489530B198AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,18 @@ Global
 		{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}.Release|iPhone.Build.0 = Release|Any CPU
 		{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|iPhone.Build.0 = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{CCAC97BE-2813-43BD-98BE-489530B198AD}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
