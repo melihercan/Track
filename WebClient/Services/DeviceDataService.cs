@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,43 @@ namespace WebClient.Services
 
         public event EventHandler<DeviceDataEventArgs> DeviceDataEvent;
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             var connection = _hubConnectionBuilder
                 .WithUrl("")
                 .Build();
+            await connection.StartAsync();
 
-            return Task.CompletedTask;
+            var cts = new CancellationTokenSource();
+            connection.Closed += ex =>
+            {
+                cts.Cancel();
+                return Task.CompletedTask;
+            };
+
+            connection.On("new-device-data", () =>
+            {
+
+            });
+
+            var channel = 
+                await connection.StreamAsChannelAsync<DeviceData>("StreamDeviceData", CancellationToken.None);
+            while(await channel.WaitToReadAsync() && !cts.IsCancellationRequested)
+            {
+                while (channel.TryRead(out var deviceData))
+                {
+                    DeviceDataEvent?.Invoke(this, new DeviceDataEventArgs
+                    {
+                        DeviceData = deviceData
+                    });
+                }
+            }
+
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
         }
     }
 }
