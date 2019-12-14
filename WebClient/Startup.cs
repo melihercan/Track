@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SignalR.Client;
+using WebClient.Services;
 
 namespace WebClient
 {
@@ -7,6 +9,8 @@ namespace WebClient
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHubConnectionBuilder, HubConnectionBuilder>();
+            services.AddSingleton<IDeviceDataService, DeviceDataService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

@@ -9,17 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrastructure", "Intrastructure\Intrastructure.csproj", "{79551B7A-24E7-4704-AC96-170F9C27D32B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{47737267-5049-4E77-B845-59D0C6754033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{47737267-5049-4E77-B845-59D0C6754033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "WebClient\WebClient.csproj", "{B9716AC6-C9FE-4E60-994A-D6A61AF4C34F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "WebClient\WebClient.csproj", "{B9716AC6-C9FE-4E60-994A-D6A61AF4C34F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneClient.Android", "PhoneClient\PhoneClient.Android\PhoneClient.Android.csproj", "{6FF3E4BB-7E95-4B02-8DD5-B7206F4EA1ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneClient.iOS", "PhoneClient\PhoneClient.iOS\PhoneClient.iOS.csproj", "{2EB2F5DC-530E-402E-8253-75A5C527682B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneClient", "PhoneClient\PhoneClient\PhoneClient.csproj", "{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneClient", "PhoneClient\PhoneClient\PhoneClient.csproj", "{F7B82F8B-3A3E-4EE2-A31C-CBCBC054308A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{CCAC97BE-2813-43BD-98BE-489530B198AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{CCAC97BE-2813-43BD-98BE-489530B198AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
