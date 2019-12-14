@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shared.Models;
 using System;
@@ -22,7 +23,9 @@ namespace WebClient.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var connection = _hubConnectionBuilder
-                .WithUrl("")
+                .WithUrl("https://localhost:44344/DeviceData")
+                .WithAutomaticReconnect()
+                .AddMessagePackProtocol()
                 .Build();
             await connection.StartAsync();
 
@@ -33,13 +36,12 @@ namespace WebClient.Services
                 return Task.CompletedTask;
             };
 
-            connection.On("new-device-data", () =>
+            connection.On("NewDeviceData", () =>
             {
 
             });
 
-            var channel = 
-                await connection.StreamAsChannelAsync<DeviceData>("StreamDeviceData", CancellationToken.None);
+            var channel = await connection.StreamAsChannelAsync<DeviceData>("StreamDeviceData", CancellationToken.None);
             while(await channel.WaitToReadAsync() && !cts.IsCancellationRequested)
             {
                 while (channel.TryRead(out var deviceData))
@@ -54,8 +56,9 @@ namespace WebClient.Services
         }
 
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
+            return Task.CompletedTask;
         }
     }
 }
