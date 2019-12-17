@@ -8,6 +8,6 @@ namespace Shared.Interfaces
 {
     public interface IDeviceDataClient
     {
-        Task ReceiveDeviceData(DeviceData deviceData);
+        Task NewDeviceData(DeviceData deviceData);
     }
 }

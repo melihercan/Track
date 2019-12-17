@@ -1,27 +1,20 @@
 ﻿@page "/devicedata"
-@inject IHubConnectionBuilder _hubConnectionBuilder
-@using WebClient.Services
-@inject IDeviceDataService _deviceDataService
- 
+@inject ILogger<Index> Logger
+@inject IDeviceDataService DeviceDataService
 
 <h3>DeviceData</h3>
 
 @code {
 
+    private CancellationTokenSource _cts = new CancellationTokenSource();
+
     protected override async Task OnInitializedAsync()
     {
+        await DeviceDataService.StartAsync(_cts.Token);
 
+        DeviceDataService.OnDataEvent += (s, e) =>
+        {
+
+        };
     }
-
-
-    //async Task<byte[]> Get()
-    //{
-    //    HubConnection connection = _hubConnectionBuilder
-    //        .WithUrl("http://localhost:5000/device-data")
-    //        .Build();
-
-    //    byte[] x = await _deviceDataService.GetDataAsync();
-    //    return x;
-    //}
-
 }
