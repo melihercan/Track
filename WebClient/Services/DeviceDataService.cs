@@ -21,10 +21,10 @@ namespace WebClient.Services
         {
             _hubConnectionBuilder = hubConnectionBuilder;
             _logger = logger;
-            Task.Run(async () => 
-            {
-                await StartAsync(new CancellationTokenSource().Token);
-            });
+            //Task.Run(async () => 
+            //{
+            //    await StartAsync(new CancellationTokenSource().Token);
+            //});
         }
 
         public event EventHandler<DeviceDataEventArgs> OnDataEvent;
@@ -34,27 +34,39 @@ namespace WebClient.Services
             _logger.LogInformation("=============================EnBuyukFenerbahce2");
 
 
-            var connection = _hubConnectionBuilder
-                .WithUrl("https://localhost:5001/DeviceData")
-                .WithAutomaticReconnect()
-                .AddMessagePackProtocol()
-                .Build();
-            await connection.StartAsync();
-
-            var cts = new CancellationTokenSource();
-            connection.Closed += ex =>
+            try
             {
-                cts.Cancel();
-                return Task.CompletedTask;
-            };
 
-            connection.On<DeviceData>("NewDeviceData", deviceData =>
-            {
-                OnDataEvent?.Invoke(this, new DeviceDataEventArgs
+                var connection = _hubConnectionBuilder
+                    .WithUrl("https://localhost:5001/DeviceData")
+                    .WithAutomaticReconnect()
+                    .AddMessagePackProtocol()
+                    .Build();
+                _logger.LogInformation("After _hubConnectionBuilder");
+                await connection.StartAsync();
+                _logger.LogInformation("After StartAsync");
+
+                var cts = new CancellationTokenSource();
+
+                connection.Closed += ex =>
                 {
-                    DeviceData = deviceData
+                    cts.Cancel();
+                    return Task.CompletedTask;
+                };
+
+                connection.On<DeviceData>("NewDeviceData", deviceData =>
+                {
+                    OnDataEvent?.Invoke(this, new DeviceDataEventArgs
+                    {
+                        DeviceData = deviceData
+                    });
                 });
-            });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"E X C E P T I O N : {ex.Message}");
+            }
 
             //var channel = await connection.StreamAsChannelAsync<DeviceData>("StreamDeviceData", CancellationToken.None);     
             //while(await channel.WaitToReadAsync() && !cts.IsCancellationRequested)
