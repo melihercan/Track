@@ -28,8 +28,7 @@ namespace Server
         {
             services.AddControllers();
 
-            services
-                .AddSignalR()
+            services.AddSignalR()
                 .AddMessagePackProtocol();
         }
 
@@ -50,7 +49,8 @@ namespace Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<DeviceDataHub>("/devicedata");
+                endpoints.MapHub<DeviceDataInHub>("/deviceDataIn");
+                endpoints.MapHub<DeviceDataOutHub>("/deviceDataOut");
             });
         }
     }

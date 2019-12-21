@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Server.Hubs
 {
-    public class DeviceDataHub : Hub<IDeviceDataClient>
+    public class DeviceDataOutHub : Hub<IDeviceDataClient>
     {
-
         public ChannelReader<DeviceData> StreamDeviceData()
         {
             return null;
