@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SignalR.Client;
-using WebClient.Services;
+using Shared.Services;
 
 namespace WebClient
 {

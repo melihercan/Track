@@ -6,6 +6,7 @@ namespace Shared.Services
 {
     public interface IDeviceDataService
     {
-        public event EventHandler<DeviceDataEventArgs> OnDataEvent;
+        public event EventHandler<DeviceDataEventArgs> OnNewDataEvent;
+
     }
 }

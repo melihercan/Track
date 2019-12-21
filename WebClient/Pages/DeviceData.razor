@@ -10,11 +10,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await DeviceDataService.StartAsync(_cts.Token);
+        ///        await DeviceDataService.StartAsync(_cts.Token);
 
-        DeviceDataService.OnDataEvent += (s, e) =>
+        Logger.LogInformation($"---- FROM .razor {DeviceDataService.ToString()}");
+
+        DeviceDataService.OnNewDataEvent += (s, e) =>
         {
-
         };
     }
 }

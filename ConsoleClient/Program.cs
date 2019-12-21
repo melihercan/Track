@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shared.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -25,9 +27,11 @@ namespace ConsoleClient
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddOptions();
-                    ////services.Configure<AppConfig>(hostContext.Configuration.GetSection("AppConfig"));
+                    ///services.Configure<AppConfig>(hostContext.Configuration.GetSection("AppConfig"));
 
-                    ////services.AddSingleton<IHostedService, PrintTextToConsoleService>();
+                    ///services.AddSingleton<IHostedService, DeviceDataService>();
+                    services.AddSingleton<IHubConnectionBuilder, HubConnectionBuilder>();
+                    services.AddHostedService<DeviceDataService>();
                 })
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));

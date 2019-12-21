@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Services
 {
-    class DeviceDataService : IHostedService, IDeviceDataService
+    public class DeviceDataService : IHostedService, IDeviceDataService
     {
 
         readonly IHubConnectionBuilder _hubConnectionBuilder;
@@ -56,7 +56,7 @@ namespace Shared.Services
 
                 connection.On<DeviceData>("NewDeviceData", deviceData =>
                 {
-                    OnDataEvent?.Invoke(this, new DeviceDataEventArgs
+                    OnNewDataEvent?.Invoke(this, new DeviceDataEventArgs
                     {
                         DeviceData = deviceData
                     });
@@ -87,7 +87,7 @@ namespace Shared.Services
             throw new NotImplementedException();
         }
 
-        public event EventHandler<DeviceDataEventArgs> OnDataEvent;
+        public event EventHandler<DeviceDataEventArgs> OnNewDataEvent;
 
     }
 }
