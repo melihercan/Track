@@ -38,7 +38,7 @@ namespace Shared.Services
             {
 
                 var connection = _hubConnectionBuilder
-                    .WithUrl("https://localhost:5001/DeviceData")
+                    .WithUrl("https://localhost:5001/DeviceData") //// TODO PASS Endpoint as parameter
                     .WithAutomaticReconnect()
                     .AddMessagePackProtocol()
                     .Build();
@@ -54,7 +54,7 @@ namespace Shared.Services
                     return Task.CompletedTask;
                 };
 
-                connection.On<DeviceData>("NewDeviceData", deviceData =>
+                connection.On<DeviceData>("NewDeviceData", deviceData => //// TODO pass action as parameter
                 {
                     OnNewDataEvent?.Invoke(this, new DeviceDataEventArgs
                     {

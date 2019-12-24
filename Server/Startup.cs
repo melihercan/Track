@@ -49,8 +49,8 @@ namespace Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<DeviceDataInHub>("/deviceDataIn");
-                endpoints.MapHub<DeviceDataOutHub>("/deviceDataOut");
+                endpoints.MapHub<DeviceDataInHub>("/DeviceDataIn");
+                endpoints.MapHub<DeviceDataOutHub>("/DeviceDataOut");
             });
         }
     }

@@ -9,29 +9,35 @@ using System.Threading.Tasks;
 
 namespace Server.Hubs
 {
-    public class DeviceDataInHub : Hub<IDeviceDataClient>
+    public class DeviceDataInHub : Hub
     {
-        private IHubContext<DeviceDataOutHub> _outHubContext;
 
-        public DeviceDataInHub(IHubContext<DeviceDataOutHub> outHubContext)
+        public async Task NewMessageAsync(DeviceData deviceData)
         {
-            _outHubContext = outHubContext;
+
         }
 
-        public ChannelReader<DeviceData> StreamDeviceData()
-        {
-            return null;
-        }
+///        private IHubContext<DeviceDataOutHub> _outHubContext;
 
-        public async Task SendMessage()
-        {
-            await _outHubContext.Clients.All.SendAsync("Xxx", "fix me");
+////        public DeviceDataInHub(IHubContext<DeviceDataOutHub> outHubContext)
+////        {
+////            _outHubContext = outHubContext;
+////        }
+
+///        public ChannelReader<DeviceData> StreamDeviceData()
+   ///     {
+      //      return null;
+        //}
+
+        //public async Task SendMessage()
+        //{
+            ////await _outHubContext.Clients.All.SendAsync("Xxx", "fix me");
             //await _outHubContext.Clients.All.NewDeviceData(new DeviceData 
             //{ 
             //    Id = 1,
             //    GroupId = 1,
             //});
-        }
+        //}
 
         //public DeviceData StreamDeviceData()
         //{
