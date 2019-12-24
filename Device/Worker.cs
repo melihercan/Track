@@ -10,7 +10,11 @@ namespace Device
 {
     public class Worker : BackgroundService
     {
+        private readonly int _numDevices = 5;
+        private readonly int _delay = 1000;
         private readonly ILogger<Worker> _logger;
+
+
 
         public Worker(ILogger<Worker> logger)
         {
@@ -19,10 +23,23 @@ namespace Device
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            var tasks = new Task[_numDevices];
+
+            for (int i=0; i<_numDevices; i++)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
+                tasks[i] = DoWorkAsync(i, stoppingToken);
+                await Task.Delay(_delay / _numDevices);
+            }
+
+            Task.WaitAll(tasks);
+        }
+
+        private async Task DoWorkAsync(int id, CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                _logger.LogInformation($"Device {id} running at {DateTimeOffset.Now}");
+                await Task.Delay(_delay, ct);
             }
         }
     }
