@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Shared.Interfaces;
 using Shared.Models;
 using System;
@@ -11,10 +12,16 @@ namespace Server.Hubs
 {
     public class DeviceDataInHub : Hub
     {
+        ILogger<DeviceDataInHub> _logger;
+
+        public DeviceDataInHub(ILogger<DeviceDataInHub> logger)
+        {
+            _logger = logger;
+        }
 
         public async Task NewMessageAsync(DeviceData deviceData)
         {
-
+            _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
         }
 
 ///        private IHubContext<DeviceDataOutHub> _outHubContext;

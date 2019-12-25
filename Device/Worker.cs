@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shared.Models;
 
 namespace Device
 {
@@ -15,7 +16,7 @@ namespace Device
     {
         private readonly ILogger<Worker> _logger;
         private readonly int _numDevices = 5;
-        private readonly int _delay = 1000;
+        private readonly int _delay = 3000;
 
 
 
@@ -60,8 +61,17 @@ namespace Device
             {
                 if (connection.State == HubConnectionState.Connected)
                 {
-
-                    _logger.LogInformation($"Device {id} running at {DateTime.Now}");
+                    await connection.SendAsync("NewMessageAsync", new DeviceData 
+                    { 
+                        Id = id,
+                        GroupId = 0,
+                        Timestamp = DateTime.Now,
+                        Latitude = 1,
+                        Longitude = 2,
+                        Altitude = 3,
+                        Speed = 4
+                    });
+                    _logger.LogInformation($"Device {id} NewMessageAsync at {DateTime.Now}");
                 }
                 await Task.Delay(_delay, ct);
             }
