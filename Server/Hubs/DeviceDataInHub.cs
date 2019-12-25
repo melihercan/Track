@@ -13,19 +13,19 @@ namespace Server.Hubs
 {
     public class DeviceDataInHub : Hub
     {
-        private IChannelService _channel;
-        private ILogger<DeviceDataInHub> _logger;
+        private readonly IChannelService _channelService;
+        private readonly ILogger<DeviceDataInHub> _logger;
 
-        public DeviceDataInHub(IChannelService channel, ILogger<DeviceDataInHub> logger)
+        public DeviceDataInHub(IChannelService channelService, ILogger<DeviceDataInHub> logger)
         {
-            _channel = channel;
+            _channelService = channelService;
             _logger = logger;
         }
 
         public async Task NewMessageAsync(DeviceData deviceData)
         {
 ////            _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
-            await _channel.WriteAsync(deviceData);
+            await _channelService.WriteAsync(deviceData);
         }
     }
 }

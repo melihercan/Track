@@ -16,8 +16,8 @@ namespace Server.Services
     {
         private readonly IHubContext<DeviceDataOutHub> _hubContext;
         private readonly ILogger<ChannelService> _logger;
-        private Channel<DeviceData> _channel;
         private int _capacity = 100;
+        private Channel<DeviceData> _channel;
 
         public ChannelService(IHubContext<DeviceDataOutHub> hubContext, ILogger<ChannelService> logger)
         {
@@ -32,6 +32,13 @@ namespace Server.Services
             await _channel.Writer.WriteAsync(deviceData);
         }
 
+        public ChannelReader<DeviceData> ClientStarted(CancellationToken ct)
+        {
+            return _channel.Reader;
+        }
+
+
+        // TODO: MOVE THIS LOGIC TO CLIENT
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while(!stoppingToken.IsCancellationRequested)
