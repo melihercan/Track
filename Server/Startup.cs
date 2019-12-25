@@ -32,7 +32,7 @@ namespace Server
             services.AddSignalR().AddMessagePackProtocol();
 
             services.AddSingleton<ChannelService>();
-            ////services.AddSingleton<IHostedService>(_ => _.GetRequiredService<ChannelService>());
+            services.AddSingleton<IHostedService>(_ => _.GetRequiredService<ChannelService>());
             services.AddSingleton<IChannelService>(_ => _.GetRequiredService<ChannelService>());
         }
 
