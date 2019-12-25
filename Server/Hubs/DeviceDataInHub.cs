@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Server.Services;
 using Shared.Interfaces;
 using Shared.Models;
 using System;
@@ -12,48 +13,19 @@ namespace Server.Hubs
 {
     public class DeviceDataInHub : Hub
     {
-        ILogger<DeviceDataInHub> _logger;
+        private IChannelService _channel;
+        private ILogger<DeviceDataInHub> _logger;
 
-        public DeviceDataInHub(ILogger<DeviceDataInHub> logger)
+        public DeviceDataInHub(IChannelService channel, ILogger<DeviceDataInHub> logger)
         {
+            _channel = channel;
             _logger = logger;
         }
 
         public async Task NewMessageAsync(DeviceData deviceData)
         {
-            _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
+////            _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
+            await _channel.WriteAsync(deviceData);
         }
-
-///        private IHubContext<DeviceDataOutHub> _outHubContext;
-
-////        public DeviceDataInHub(IHubContext<DeviceDataOutHub> outHubContext)
-////        {
-////            _outHubContext = outHubContext;
-////        }
-
-///        public ChannelReader<DeviceData> StreamDeviceData()
-   ///     {
-      //      return null;
-        //}
-
-        //public async Task SendMessage()
-        //{
-            ////await _outHubContext.Clients.All.SendAsync("Xxx", "fix me");
-            //await _outHubContext.Clients.All.NewDeviceData(new DeviceData 
-            //{ 
-            //    Id = 1,
-            //    GroupId = 1,
-            //});
-        //}
-
-        //public DeviceData StreamDeviceData()
-        //{
-        //    return new DeviceData
-        //    {
-        //        Id = 1,
-        //        GroupId = 1,
-        //    };
-        //}
-
     }
 }

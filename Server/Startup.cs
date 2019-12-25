@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Server.Hubs;
+using Server.Services;
 
 namespace Server
 {
@@ -28,8 +29,11 @@ namespace Server
         {
             services.AddControllers();
 
-            services.AddSignalR()
-                .AddMessagePackProtocol();
+            services.AddSignalR().AddMessagePackProtocol();
+
+            services.AddSingleton<ChannelService>();
+            ////services.AddSingleton<IHostedService>(_ => _.GetRequiredService<ChannelService>());
+            services.AddSingleton<IChannelService>(_ => _.GetRequiredService<ChannelService>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
