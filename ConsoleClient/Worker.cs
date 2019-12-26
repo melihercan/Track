@@ -10,72 +10,49 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Models;
 
-namespace Device
+namespace ConsoleClient
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly int _numDevices = 2;
-        private readonly int _delay = 5000;
-
-
 
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
-
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var tasks = new Task[_numDevices];
-
-            for (int i=0; i<_numDevices; i++)
-            {
-                tasks[i] = DoWorkAsync(i, stoppingToken);
-                await Task.Delay(_delay / _numDevices);
-            }
-
-            Task.WaitAll(tasks);
-        }
-
-        private async Task DoWorkAsync(int id, CancellationToken ct)
-        {
             var connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/DeviceDataIn")
-////                .WithAutomaticReconnect()
+                .WithUrl("https://localhost:5001/DeviceDataOut")
                 .AddMessagePackProtocol()
                 .Build();
 
             connection.Closed += ex =>
             {
                 // Start connection again without awaiting.
-                _ = ConnectWithRetryAsync(connection, ct);
+                _ = ConnectWithRetryAsync(connection, stoppingToken);
                 return Task.CompletedTask;
             };
 
             // Await till connection is made or cancel occured.
-            await ConnectWithRetryAsync(connection, ct);
+            await ConnectWithRetryAsync(connection, stoppingToken);
 
-            while (!ct.IsCancellationRequested)
+            var channel = await connection.StreamAsChannelAsync<DeviceData>("StreamDeviceData", CancellationToken.None);
+
+            while (!stoppingToken.IsCancellationRequested)
             {
                 if (connection.State == HubConnectionState.Connected)
                 {
-                    await connection.SendAsync("NewMessageAsync", new DeviceData 
-                    { 
-                        Id = id,
-                        GroupId = 0,
-                        Timestamp = DateTime.Now,
-                        Latitude = 1,
-                        Longitude = 2,
-                        Altitude = 3,
-                        Speed = 4
-                    });
-                    _logger.LogInformation($"Device {id} NewMessageAsync at {DateTime.Now}");
+                    await channel.WaitToReadAsync(stoppingToken);
+                    if (channel.TryRead(out var deviceData))
+                    {
+                        _logger.LogInformation($"========> To clients from Device {deviceData.Id} at {DateTime.Now}");
+                    }
                 }
-                await Task.Delay(_delay, ct);
             }
         }
+
 
         private async Task<bool> ConnectWithRetryAsync(HubConnection connection, CancellationToken ct)
         {
@@ -103,4 +80,6 @@ namespace Device
             }
         }
     }
+
 }
+

@@ -38,17 +38,17 @@ namespace Server.Services
         }
 
 
-        // TODO: MOVE THIS LOGIC TO CLIENT
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while(!stoppingToken.IsCancellationRequested)
             {
-                await _channel.Reader.WaitToReadAsync(stoppingToken);
-                if (_channel.Reader.TryRead(out var deviceData))
-                {
-                    _logger.LogInformation($"========> To clients from Device {deviceData.Id} at {DateTime.Now}");
-                    await _hubContext.Clients.All.SendAsync("NewDeviceData", deviceData, stoppingToken);
-                }
+                await Task.Delay(1000);
+                //await _channel.Reader.WaitToReadAsync(stoppingToken);
+                //if (_channel.Reader.TryRead(out var deviceData))
+                //{
+                //    _logger.LogInformation($"--------> To service from Device {deviceData.Id} at {DateTime.Now}");
+                //    ////await _hubContext.Clients.All.SendAsync("NewDeviceData", deviceData, stoppingToken);
+                //}
             }
         }
     }
