@@ -23,7 +23,6 @@ namespace Device
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
-
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -43,7 +42,6 @@ namespace Device
         {
             var connection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:5001/DeviceDataIn")
-////                .WithAutomaticReconnect()
                 .AddMessagePackProtocol()
                 .Build();
 
@@ -61,7 +59,7 @@ namespace Device
             {
                 if (connection.State == HubConnectionState.Connected)
                 {
-                    await connection.SendAsync("NewMessageAsync", new DeviceData 
+                    await connection.SendAsync("NewMessage", new DeviceData 
                     { 
                         Id = id,
                         GroupId = 0,
@@ -71,9 +69,10 @@ namespace Device
                         Altitude = 3,
                         Speed = 4
                     });
-                    _logger.LogInformation($"Device {id} NewMessageAsync at {DateTime.Now}");
+                    _logger.LogInformation($"Device {id} NewMessage at {DateTime.Now}");
                 }
-                await Task.Delay(_delay, ct);
+                try { await Task.Delay(_delay, ct); }
+                catch (TaskCanceledException) { }
             }
         }
 

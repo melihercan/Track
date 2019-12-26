@@ -9,7 +9,7 @@ namespace Server.Services
     {
         ///Channel<DeviceData> Channel { get; }
 
-        Task WriteAsync(DeviceData deviceData);
+        void Write(DeviceData deviceData);
 
         ChannelReader<DeviceData> ClientStarted(CancellationToken ct);
     }

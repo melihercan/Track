@@ -22,10 +22,9 @@ namespace Server.Hubs
             _logger = logger;
         }
 
-        public async Task NewMessageAsync(DeviceData deviceData)
+        public void NewMessage(DeviceData deviceData)
         {
-////            _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
-            await _channelService.WriteAsync(deviceData);
+            _channelService.Write(deviceData);
         }
     }
 }

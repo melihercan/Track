@@ -6,6 +6,7 @@ using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -14,32 +15,40 @@ namespace Server.Services
 {
     public class ChannelService : BackgroundService, IChannelService
     {
-        private readonly IHubContext<DeviceDataOutHub> _hubContext;
         private readonly ILogger<ChannelService> _logger;
         private int _capacity = 100;
-        private Channel<DeviceData> _channel;
+        private readonly Subject<DeviceData> _subject = new Subject<DeviceData>();
 
-        public ChannelService(IHubContext<DeviceDataOutHub> hubContext, ILogger<ChannelService> logger)
+        public ChannelService(/*IHubContext<DeviceDataOutHub> hubContext,*/ ILogger<ChannelService> logger)
         {
-            _hubContext = hubContext;
             _logger = logger;
-            _channel = Channel.CreateBounded<DeviceData>(_capacity);
         }
 
-        public async Task WriteAsync(DeviceData deviceData)
+        public void Write(DeviceData deviceData)
         {
             _logger.LogInformation($"New message from Device {deviceData.Id} at {DateTime.Now}");
-            await _channel.Writer.WriteAsync(deviceData);
+            _subject.OnNext(deviceData);
         }
 
         public ChannelReader<DeviceData> ClientStarted(CancellationToken ct)
         {
-            return _channel.Reader;
+            var channel = Channel.CreateBounded<DeviceData>(_capacity);
+            var disposable = _subject.Subscribe(
+                value => channel.Writer.TryWrite(value),
+                error => channel.Writer.TryComplete(error),
+                () => channel.Writer.TryComplete());
+
+            // Complete the subscription on the reader completing.
+            channel.Reader.Completion.ContinueWith(task => disposable.Dispose());
+
+            return channel.Reader;
         }
 
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            //// THIS IS FOR INTERNAL USAGE OF DEVICE DATA SUCH AS STORING TO DBASE
+
             while(!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(1000);
