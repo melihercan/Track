@@ -1,5 +1,5 @@
 ﻿@page "/devicedata"
-@inject ILogger<Index> Logger
+@inject ILogger<DeviceData> Logger
 @inject IDeviceDataService DeviceDataService
 
 <h3>DeviceData</h3>
@@ -10,11 +10,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ///        await DeviceDataService.StartAsync(_cts.Token);
+        await DeviceDataService.StartAsync(_cts.Token);
 
         Logger.LogInformation($"---- FROM .razor {DeviceDataService.ToString()}");
 
-        DeviceDataService.OnNewDataEvent += (s, e) =>
+        DeviceDataService.OnDataEvent += (s, e) =>
         {
         };
     }
