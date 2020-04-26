@@ -24,5 +24,30 @@ Device data will contain the following information:
 - Altitude
 - Speed
 
+### Core Layer
+
+This is the core of the application. It contains:
+- Entities
+- Use Cases
+- Interfaces
+
+
+### Infrastructure
+
+Implementation of the interfaces:
+- Device
+- Repositrory
+- User
+
+### UserInterfaces
+
+This layer presents user interfaces:
+- Web UI
+- Mobile UI
+- Console UI
+
+## License
+
+This project is licensed with the [MIT license](LICENSE).
 
 
